@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.LevelListDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,15 +24,21 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY = "data";
 
     MyReceiver myReceiver;
+    Button changeImageButton;
     Button intentServiceButton;
+    ImageView imageView;
     ListView listView;
+
+    private int level = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        changeImageButton = (Button) findViewById( R.id.btnChangeImage );
         intentServiceButton = (Button) findViewById( R.id.btnIntentService );
+        imageView = (ImageView) findViewById( R.id.ivImage );
         listView = (ListView) findViewById( R.id.lvPeople );
     }
 
@@ -51,9 +59,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buttonPressed(View view) {
-        Log.d(TAG, "buttonPressed: Starting Service");
-        Intent intService = new Intent( this, MyIntentService.class );
-        startService( intService  );
+        switch( view.getId() ) {
+            case R.id.btnChangeImage:
+
+                level = (level < 2) ? level+1 : 0;
+                Toast.makeText(this, "" + level, Toast.LENGTH_SHORT).show();
+                imageView.setImageLevel( level );
+
+                break;
+            case R.id.btnIntentService:
+
+                Log.d(TAG, "buttonPressed: Starting Service");
+                Intent intService = new Intent(this, MyIntentService.class);
+                startService(intService);
+
+                break;
+        }
     }
 
     private class MyReceiver extends BroadcastReceiver {
@@ -79,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
 /*
 1. Create an application to use 5 systems broadcasts
-2. Create an IntentService to create a list of random objects (The objects should have at least 4
+X 2. Create an IntentService to create a list of random objects (The objects should have at least 4
 fields). And communicate back to the main activity with a broadcast receiver and update a listView.
 3. Create a feature which changes the image on every button click using LevelListDrawable
 4. Change the state of the button using StateListDrawable

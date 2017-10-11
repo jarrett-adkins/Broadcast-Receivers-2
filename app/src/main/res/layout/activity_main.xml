@@ -8,6 +8,19 @@
     android:layout_height="match_parent"
     tools:context="com.example.admin.broadcasthomework.MainActivity">
 
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/level_list"/>
+
+    <Button
+        android:id="@+id/btnChangeImage"
+        android:text="Change Image"
+        android:onClick="buttonPressed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btnIntentService"
         android:text="Start Intent Service"
